@@ -1,31 +1,52 @@
-class SistemaAntigo {
-    obterTemperaturaFahrenheit(): number {
-      return 32; 
+interface Galinha {
+    cacarejar(): void;
+    voar(): void;
+  }
+  
+
+class Pato {
+    grasnar(): void {
+      console.log('Quack! Quack!');
+    }
+  
+    voar(): void {
+      console.log('Voando como um pato.');
     }
   }
   
-  interface NovoSistema {
-    obterTemperaturaCelsius(): number;
-  }
+
+  class AdaptadorPato implements Galinha {
+    private pato: Pato;
   
-class Adapter implements NovoSistema {
-    private sistemaAntigo: SistemaAntigo;
-  
-    constructor(sistemaAntigo: SistemaAntigo) {
-      this.sistemaAntigo = sistemaAntigo;
+    constructor(pato: Pato) {
+      this.pato = pato;
     }
   
-    obterTemperaturaCelsius(): number {
-      return (this.sistemaAntigo.obterTemperaturaFahrenheit() - 32) * (5 / 9);
+    cacarejar(): void {
+        console.log('Po! Po!');
+    }
+  
+    voar(): void {
+        console.log('Voando como uma galinha.');
     }
   }
   
-  function clienteCodigo(sistema: NovoSistema) {
-    console.log(`Temperatura em Celsius: ${sistema.obterTemperaturaCelsius().toFixed(2)}°C`);
+
+class AdaptadorPatoDemo {
+    static executar(): void {
+      const pato = new Pato();
+      const adaptadorPato = new AdaptadorPato(pato);
+  
+      console.log('Pato:');
+      pato.grasnar();
+      pato.voar();
+  
+      console.log('\nAdaptadorGalinha:');
+      adaptadorPato.cacarejar();
+      adaptadorPato.voar();
+    }
   }
   
-  const sistemaAntigo = new SistemaAntigo();
-  const sistemaAdaptado = new Adapter(sistemaAntigo);
-  
-  clienteCodigo(sistemaAdaptado);
+  // Executando o exemplo
+  AdaptadorPatoDemo.executar();
   
